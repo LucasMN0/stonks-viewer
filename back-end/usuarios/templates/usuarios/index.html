@@ -1,41 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png" sizes="180x180">
-  <title>StonksViewer</title>
+  <link rel="stylesheet" href="{% static 'usuarios/style.css' %}">
+  <title>Login - StonksViewer</title>
 </head>
 <body>
-<div class="entrada">
-  <div class="conteudo-flex">
-    <div class="formulario">
-      <h2>Bem-vindo ao <strong>Stonks Viewer</strong></h2>
-      <h3>Cuide das suas finanças com quem te conhece bem</h3>
-      <form action="perfil.html" method="GET">
-        <input type="email" name="email" placeholder="e-mail" required>
-        <input type="password" name="senha" placeholder="senha" required>
-        <button type="submit">Entrar</button>
-      </form>
-      <p>
-        Ainda não possui cadastro?
-        <a href="cadastro.html">Cadastre-se aqui</a>
-      </p>
-      <p>
-        Esqueceu sua senha?
-        <a href="recuperar.html">Recupere aqui</a>
-      </p>
-    </div>
-    <div class="imagem-lado">
-      <img src="/docs/imagens/LogoStonks.png" alt="Logo do Stonks Viewer">
+  <div class="entrada">
+    <div class="conteudo-flex">
+      <div class="formulario">
+        <h2>Bem-vindo ao <strong>Stonks Viewer</strong></h2>
+        <h3>Cuide das suas finanças com quem te conhece bem</h3>
+
+        <form method="POST" action="">
+          {% csrf_token %}
+          {{ form.email }}
+          {{ form.password }}
+          <button type="submit">Entrar</button>
+        </form>
+
+        {% if messages %}
+          {% for message in messages %}
+            <p style="color: red;">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+
+        <p>Ainda não possui cadastro?
+          <a href="{% url 'cadastro' %}">Cadastre-se aqui</a>
+        </p>
+      </div>
+      <div class="imagem-lado">
+        <img src="{% static 'usuarios/imagens/LogoStonks.png' %}" alt="Logo do Stonks Viewer">
+      </div>
     </div>
   </div>
-</div>
-
-
-  <footer>
-    <p>© 2025 Todos os direitos reservados para a Stonks Viewer</p>
-  </footer>
 </body>
 </html>
