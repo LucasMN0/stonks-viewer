@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
 ]
-STATIC_URL = '/static/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -108,7 +107,7 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 LOGIN_REDIRECT_URL = '/perfil/'
 LOGOUT_REDIRECT_URL = '/'
-
+LOGIN_URL = 'login'
 
 STATIC_URL = 'static/'
 

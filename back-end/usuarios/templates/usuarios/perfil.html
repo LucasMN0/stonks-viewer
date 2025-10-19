@@ -38,8 +38,8 @@
       <div class="sidebar-user-profile">
         <div class="user-avatar"></div>
         <div class="user-info">
-          <p class="user-name">Usuário Exemplo</p>
-          <p class="user-email">email@exemplo.com</p>
+          <p class="user-name">{{ request.user.first_name }}</p>
+          <p class="user-email">{{ request.user.email }}</p>
         </div>
       </div>
     </aside>

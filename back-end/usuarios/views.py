@@ -38,9 +38,12 @@ def cadastro(request):
         except ValidationError as e:
             errors = e.messages
 
+        User = get_user_model()
+        if User.objects.filter(email=email).exists():
+            errors.append("Este email já está cadastrado.")
         if not errors:
-            User = get_user_model()
             user = User.objects.create_user(email=email,password=password,first_name=first_name)
+            login(request,user)
             #redireciona pra página inicial após cadastro
             return redirect('perfil')
     return render(request, 'usuarios/cadastro.html', {'errors': errors})#caso nao cadastre redirecionado para a mesma página
