@@ -9,6 +9,9 @@ class Transacao(models.Model):
         ('investment', 'Ganho extra'),
         ('other', 'Outro'),
     ]
+    class Meta:
+        verbose_name = 'Transação'
+        verbose_name_plural = 'Transações'
 
     data = models.DateField()
     descricao = models.CharField(max_length=255)
@@ -66,6 +69,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
     def __str__(self):
         return self.email

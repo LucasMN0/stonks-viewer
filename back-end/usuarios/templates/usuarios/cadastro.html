@@ -20,6 +20,13 @@
             <input type="text" name="first_name" placeholder="Nome ou apelido" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Senha" required>
+            {% if errors %}
+                <ul style="color:red;margin-top:5px;font-size: 12px;">
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <button type="submit">Cadastrar</button>
         </form>
 
