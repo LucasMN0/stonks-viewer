@@ -87,17 +87,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+        'NAME': 'usuarios.validators.CustomPasswordValidator',
+    }
 ]
 
 
@@ -115,7 +106,7 @@ USE_TZ = True
 AUTH_USER_MODEL = 'usuarios.CustomUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/perfil/'
 LOGOUT_REDIRECT_URL = '/'
 
 

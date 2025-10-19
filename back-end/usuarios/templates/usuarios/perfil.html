@@ -1,13 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png" />
+  <link rel="icon" href="{% static 'usuarios/cofrinho.png' %}" type="image/png" />
   <title>Stonks Viewer</title>
-  <link rel="stylesheet" href="perfil.css" />
+  <link rel="stylesheet" href="{% static 'usuarios/perfil.css' %}" />
 </head>
-
 <body>
   <div class="dashboard-container">
     <aside class="sidebar">
