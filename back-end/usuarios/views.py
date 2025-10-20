@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import LoginForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.auth.password_validation import validate_password
 def login_view(request):
     if request.method == 'POST':
@@ -51,9 +52,16 @@ def cadastro(request):
 @login_required
 def perfil(request):
     return render(request, 'usuarios/perfil.html')
+def sair_view(request):
+    logout(request)  # encerra a sessão do usuário
+    messages.info(request, "Você saiu com sucesso.")
+    return redirect('login')  # redireciona para login após logout
+
 def sobre_view(request):
     return render(request, 'usuarios/sobre.html')
-# em views.py
 def recuperar_senha(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        messages.info(request, f'Um link de redefinição de senha foi enviado para {email}.')
+        return redirect('login')
     return render(request, 'usuarios/recuperar.html')
-
