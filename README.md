@@ -64,7 +64,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ![logo](docs/imagens/ImagemTrello2.png)
 
-![logo](docs/imagens/ImagemUH.2.png)
+![logo](docs/imagens/ImagemUH1.png)
 
 ---
 
