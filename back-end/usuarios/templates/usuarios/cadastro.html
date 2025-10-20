@@ -4,22 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png">
 
-    <title>Cadastro</title>
+    <!-- Ícone do site -->
+    <link rel="icon" href="{% static 'usuarios/imagens/cofrinho.png' %}" type="image/png">
+
+    <!-- Título e CSS -->
+    <title>StonksViewer - Cadastro</title>
     <link rel="stylesheet" href="{% static 'usuarios/styleCadastro.css' %}">
-
 </head>
 <body>
     <div class="entrada">
         <h2>Cadastro</h2>
         <h3>Crie sua conta</h3>
 
+        <!-- Formulário de cadastro com csrf_token -->
         <form method="post" action="{% url 'cadastro' %}">
             {% csrf_token %}
             <input type="text" name="first_name" placeholder="Nome ou apelido" required>
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Senha" required>
+
+            <!-- Exibe erros, se houver -->
             {% if errors %}
                 <ul style="color:red;margin-top:5px;font-size: 12px;">
                     {% for error in errors %}
@@ -27,12 +32,14 @@
                     {% endfor %}
                 </ul>
             {% endif %}
+
             <button type="submit">Cadastrar</button>
         </form>
 
+        <!-- Link para login -->
         <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
-
     </div>
+
     <footer>
         <p>&copy; 2023 Stonks Viewer. Todos os direitos reservados.</p>
     </footer>
