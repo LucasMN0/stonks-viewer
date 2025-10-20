@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import LoginForm
 from django.core.exceptions import ValidationError
@@ -51,3 +51,7 @@ def cadastro(request):
 @login_required
 def perfil(request):
     return render(request, 'usuarios/perfil.html')
+
+def sair(request):
+    logout(request)
+    return redirect('login')
