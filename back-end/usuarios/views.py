@@ -51,3 +51,9 @@ def cadastro(request):
 @login_required
 def perfil(request):
     return render(request, 'usuarios/perfil.html')
+def sobre_view(request):
+    return render(request, 'usuarios/sobre.html')
+# em views.py
+def recuperar_senha(request):
+    return render(request, 'usuarios/recuperar.html')
+

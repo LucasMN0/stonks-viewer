@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.login_view, name='login'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('perfil/',views.perfil, name = 'perfil'),
-    path('login/',views.login,name='login'),
+    path('sobre/', views.sobre_view, name='sobre'),
+    path('recuperar/', views.recuperar_senha, name='recuperar'),
+
     #path('recuperar-senha/', views.recuperar_senha, name='recuperar_senha'),
 ]
