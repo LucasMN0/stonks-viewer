@@ -1,5 +1,4 @@
 ## Stonks Viewer
--
 
 Seu controle financeiro, de um jeito simples e prático.
 
@@ -52,7 +51,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## Demonstração do projeto
 
-[📹 Assista à demonstração do projeto implementado em telas](docs/projeto/WhatsApp%20Video%202025-10-21%20at%2009.09.04.mp4)
+[📹 Assista à demonstração do projeto implementado em telas](docs/video/WhatsApp%20Video%202025-10-21%20at%2009.09.04.mp4)
 
 [Imagens do Figma](docs/imagensFigma/)
 
