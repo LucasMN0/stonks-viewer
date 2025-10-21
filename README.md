@@ -52,7 +52,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## Demonstração do projeto
 
-[📹 Assista à demonstração do projeto implementado em telas](https://drive.google.com/drive/folders/132CkLo7S20QO9MzFHEMZ4lQgEQ6Jf3hd)
+[📹 Assista à demonstração do projeto implementado em telas](docs/projeto/WhatsApp%20Video%202025-10-21%20at%2009.09.04.mp4)
 
 [Imagens do Figma](docs/imagensFigma/)
 
@@ -76,7 +76,9 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 [Issue/bug tracke](docs/imagens/TelaIssue.png)
 
+## Relatório
 
+[Relatório da programação em par](docs/projeto/Relatorio_PP.pdf)
 
 
 ---
