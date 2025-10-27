@@ -123,6 +123,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-EMAIL_HOST_USER = "bott41622@gmail.com"
-EMAIL_HOST_PASSWORD = "faug swmg eiqg iyau"
+EMAIL_HOST_USER = "stonksviewer@gmail.com"
+EMAIL_HOST_PASSWORD = "kopu xmkp wilg zskw"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
