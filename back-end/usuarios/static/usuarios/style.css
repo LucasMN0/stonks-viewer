@@ -146,5 +146,15 @@ footer {
     width: 200px;
     margin-top: 20px;
   }
+
+  .topo .sobre button {
+  padding: 12px 25px;
+  border:none;
+  border-radius:10px 25px;
+  background: #72df76;
+  color:white;
+  font-size: 16px;
+  font-weight: semi-bold
+  }
 }
 
