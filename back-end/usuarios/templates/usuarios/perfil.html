@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png" />
+  <link rel="icon" href="{% static 'usuarios/cofrinho.png' %}" type="image/png" />
   <title>Stonks Viewer</title>
-  <link rel="stylesheet" href="perfil.css" />
+  <link rel="stylesheet" href="{% static 'usuarios/perfil.css' %}" />
 </head>
 
 <body>
@@ -16,13 +17,11 @@
       </div>
 
       <li class="lembretes-section">
-          <div class="lembretes-header">
-              <span>Lembretes: </span>
-                  <span class="lembrete-count" id="lembrete-count"> 0 </span>
-          </div>
-          <div class="lembretes-lista" id="lembretes-lista">
-                    
-          </div>
+        <div class="lembretes-header">
+          <span>Lembretes: </span>
+          <span class="lembrete-count" id="lembrete-count">0</span>
+        </div>
+        <div class="lembretes-lista" id="lembretes-lista"></div>
       </li>
 
       <nav class="sidebar-nav">
@@ -31,81 +30,55 @@
           <li><a href="#recent-transactions">Últimas movimentações</a></li>
           <li><a href="#metas-financeiras">Metas</a></li>
           <li><a href="#adicionar-lembrete">Lembretes</a></li>
-          <li><a href="index.html">Sair</a></li>
+          <li><a href="{% url 'sair' %}">Sair</a></li>
         </ul>
       </nav>
 
       <div class="sidebar-user-profile">
         <div class="user-avatar"></div>
         <div class="user-info">
-          <p class="user-name">Usuário Exemplo</p>
-          <p class="user-email">email@exemplo.com</p>
+          <p class="user-name">{{ request.user.first_name }}</p>
+          <p class="user-email">{{ request.user.email }}</p>
         </div>
       </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-content" id="main-content">
+      <header class="main-header"><h1>Sua visão geral financeira</h1></header>
 
-      <!-- CABEÇALHO -->
-      <header class="main-header">
-        <h1>Sua visão geral financeira</h1>
-      </header>
-
-      <!-- RESUMO -->
+      <!-- Resumo -->
       <section class="summary-cards">
-        <div class="card">
-          <h2>Saldo Atual</h2>
-          <p class="card-value" id="saldo-atual">R$ 0,00</p>
-        </div>
-        <div class="card">
-          <h2>Ganhos</h2>
-          <p class="card-value" id="total-ganhos">R$ 0,00</p>
-        </div>
-        <div class="card">
-          <h2>Gastos</h2>
-          <p class="card-value" id="total-gastos">R$ 0,00</p>
-        </div>
+        <div class="card"><h2>Saldo Atual</h2><p id="saldo-atual">R$ 0,00</p></div>
+        <div class="card"><h2>Ganhos</h2><p id="total-ganhos">R$ 0,00</p></div>
+        <div class="card"><h2>Gastos</h2><p id="total-gastos">R$ 0,00</p></div>
       </section>
 
-      <!-- ADICIONAR LEMBRETE -->
-      <section class="adicionar-lembrete" id="adicionar-lembrete">
+      <!-- Adicionar Lembrete -->
+      <section id="adicionar-lembrete">
         <h3>Adicionar Lembrete</h3>
-        <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 13px;">Os lembretes ajudarão você a não esquecer de compromissos financeiros importantes.</p>
-        <br>
         <form id="form-lembrete">
-          <input type="text" name="lembrete" placeholder="Nome" />
-          <input type="date" name="data-lembrete" placeholder="Data" />
+          <input type="text" name="lembrete" placeholder="Nome" required />
+          <input type="date" name="data-lembrete" required />
           <input type="text" name="descricao" placeholder="Descrição" />
-          <button type="button" onclick="adicionarLembrete()">Adicionar Lembrete</button>
+          <button type="submit">Adicionar</button>
         </form>
       </section>
 
-      <!-- ÚLTIMAS TRANSAÇÕES -->
-      <section class="recent-transactions" id="recent-transactions">
+      <!-- Transações -->
+      <section id="recent-transactions">
         <h3>Últimas Movimentações</h3>
-        <div class="transaction-list-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-transacoes">
-            </tbody>
-          </table>
-        </div>
+        <table>
+          <thead>
+            <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tabela-transacoes"></tbody>
+        </table>
       </section>
 
-      <!-- FORMULÁRIO DE NOVA TRANSAÇÃO -->
       <section class="add-transaction-form">
         <h3>Adicionar Nova Movimentação</h3>
         <form id="add-transaction-form">
-          <input type="date" name="date" placeholder="Data" required />
+          <input type="date" name="date" required />
           <input type="text" name="description" placeholder="Descrição" required />
           <input type="number" name="value" placeholder="Valor" step="0.01" required />
           <select name="type" required>
@@ -119,315 +92,223 @@
         </form>
       </section>
 
-      <!-- GRÁFICOS -->
-      <section class="main-charts" id="main-charts">
-        <div class="chart-container">
-          <h3>Gastos Mensais</h3>
-          <div class="chart-placeholder" id="grafico-gastos">
-            <p>Adicione transações para ver o gráfico</p>
-          </div>
-        </div>
-        <div class="chart-container">
-          <h3>Análise de Saldo</h3>
-          <div class="chart-placeholder" id="grafico-saldo">
-            <p>Adicione transações para ver o gráfico</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- METAS FINANCEIRAS -->
-      <section class="metas-financeiras" id="metas-financeiras">
+      <!-- Metas -->
+      <section id="metas-financeiras">
         <h3>Metas Financeiras</h3>
         <form id="adicionar-meta">
           <input type="text" name="meta" placeholder="Nome da meta" required />
-          <input type="number" name="valor-meta" placeholder="Valor da meta" step="0.01" required />
-          <button type="submit">Adicionar Meta</button>
+          <input type="number" name="valor-meta" placeholder="Valor" step="0.01" required />
+          <button type="submit">Adicionar</button>
         </form>
-
-        <div class="meta-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Meta</th>
-                <th>Valor</th>
-                <th>Progresso</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-metas">
-            </tbody>
-          </table>
-        </div>
+        <table>
+          <thead>
+            <tr><th>Meta</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tabela-metas"></tbody>
+        </table>
       </section>
 
+      <!-- SCRIPT -->
       <script>
+        // -------------------------------
+        // CSRF TOKEN - Necessário p/ POST
+        // -------------------------------
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+        const csrfToken = getCookie("csrftoken");
+
+        function headers() {
+          return {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+            "X-Requested-With": "XMLHttpRequest"
+          };
+        }
+
+        // ------- TRANSACOES -------
         const formTransacoes = document.getElementById("add-transaction-form");
         const tabelaTransacoes = document.getElementById("tabela-transacoes");
 
-        function carregarTransacoes() {
-            const transacoes = JSON.parse(localStorage.getItem('transacoes') || '[]');
-            tabelaTransacoes.innerHTML = '';
-            
-            transacoes.forEach(transacao => {
-                adicionarLinhaTransacao(transacao);
-            });
-            
-            atualizarResumoFinanceiro();
+        async function carregarTransacoes() {
+          const r = await fetch("{% url 'listar_transacoes' %}");
+          const data = await r.json();
+          const transacoes = data.transacoes;
+          tabelaTransacoes.innerHTML = "";
+          transacoes.forEach(adicionarLinhaTransacao);
+          atualizarResumoFinanceiro(transacoes);
         }
 
-        function adicionarLinhaTransacao(transacao) {
-            const novaLinha = document.createElement("tr");
-            novaLinha.dataset.id = transacao.id;
-            const tdData = document.createElement("td");
-            const tdDescricao = document.createElement("td");
-            const tdCategoria = document.createElement("td");
-            const tdValor = document.createElement("td");
-            const tdAcoes = document.createElement("td");
-
-            tdData.textContent = transacao.data;
-            tdDescricao.textContent = transacao.descricao;
-
-            let categoria = "";
-            switch (transacao.tipo) {
-                case "expense": categoria = "Gasto fixo"; break;
-                case "extra": categoria = "Gasto extra"; break;
-                case "income": categoria = "Ganho fixo"; break;
-                case "investment": categoria = "Ganho extra"; break;
-                case "other": categoria = "Outro"; break;
-            }
-            tdCategoria.textContent = categoria;
-
-            tdValor.textContent = `R$ ${parseFloat(transacao.valor).toFixed(2)}`;
-            tdValor.style.color = (transacao.tipo === "income" || transacao.tipo === "investment") ? "green" : "red";
-            tdValor.style.fontWeight = "bold";
-
-            const btnExcluir = document.createElement("button");
-            btnExcluir.textContent = "Excluir";
-            btnExcluir.className = "btn-excluir-transacao";
-            btnExcluir.onclick = () => excluirTransacao(transacao.id);
-            tdAcoes.appendChild(btnExcluir);
-
-            novaLinha.append(tdData, tdDescricao, tdCategoria, tdValor, tdAcoes);
-            tabelaTransacoes.appendChild(novaLinha);
+        function adicionarLinhaTransacao(t) {
+          const valor = parseFloat(t.valor);
+          const cor = ["income", "investment"].includes(t.tipo) ? "green" : "red";
+          const linha = document.createElement("tr");
+          linha.innerHTML = `
+            <td>${t.data}</td>
+            <td>${t.descricao}</td>
+            <td>${traduzirTipo(t.tipo)}</td>
+            <td style="color:${cor};font-weight:bold">
+              R$ ${valor.toFixed(2)}
+            </td>
+            <td><button onclick="excluirTransacao(${t.id})">Excluir</button></td>`;
+          tabelaTransacoes.appendChild(linha);
         }
 
-        function excluirTransacao(id) {
-            let transacoes = JSON.parse(localStorage.getItem('transacoes') || '[]');
-            transacoes = transacoes.filter(t => t.id !== id);
-            localStorage.setItem('transacoes', JSON.stringify(transacoes));
-            carregarTransacoes();
+        async function excluirTransacao(id) {
+          await fetch(`{% url 'excluir_transacao' 0 %}`.replace("0", id), {
+            method: "DELETE",
+            headers: headers()
+          });
+          carregarTransacoes();
         }
 
-        formTransacoes.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const novaTransacao = {
-                id: Date.now(),
-                data: formTransacoes.date.value,
-                descricao: formTransacoes.description.value,
-                valor: parseFloat(formTransacoes.value.value).toFixed(2),
-                tipo: formTransacoes.type.value
-            };
-            let transacoes = JSON.parse(localStorage.getItem('transacoes') || '[]');
-            transacoes.push(novaTransacao);
-            localStorage.setItem('transacoes', JSON.stringify(transacoes));
-            adicionarLinhaTransacao(novaTransacao);
-            atualizarResumoFinanceiro();
-            formTransacoes.reset();
+        formTransacoes.addEventListener("submit", async e => {
+          e.preventDefault();
+          const body = {
+            data: formTransacoes.date.value,
+            descricao: formTransacoes.description.value,
+            valor: formTransacoes.value.value,
+            tipo: formTransacoes.type.value
+          };
+          await fetch("{% url 'adicionar_transacao' %}", {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify(body)
+          });
+          formTransacoes.reset();
+          carregarTransacoes();
         });
 
-        function atualizarResumoFinanceiro() {
-            const transacoes = JSON.parse(localStorage.getItem('transacoes') || '[]');
-            
-            let totalGanhos = 0;
-            let totalGastos = 0;
-
-            transacoes.forEach(transacao => {
-                const valor = parseFloat(transacao.valor);
-                if (transacao.tipo === "income" || transacao.tipo === "investment") {
-                    totalGanhos += valor;
-                } else {
-                    totalGastos += valor;
-                }
-            });
-
-            const saldoAtual = totalGanhos - totalGastos;
-
-            document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
-            document.getElementById('total-ganhos').textContent = `R$ ${totalGanhos.toFixed(2)}`;
-            document.getElementById('total-gastos').textContent = `R$ ${totalGastos.toFixed(2)}`;
-            document.getElementById('saldo-atual').style.color = saldoAtual >= 0 ? 'green' : 'red';
-            document.getElementById('total-ganhos').style.color = 'green';
-            document.getElementById('total-gastos').style.color = 'red';
+        function traduzirTipo(tipo) {
+          const mapa = {
+            income: "Ganho fixo",
+            investment: "Ganho extra",
+            expense: "Gasto fixo",
+            extra: "Gasto extra",
+            other: "Outro"
+          };
+          return mapa[tipo] || tipo;
         }
 
+        function atualizarResumoFinanceiro(transacoes) {
+          let ganhos = 0, gastos = 0;
+          transacoes.forEach(t => {
+            const v = parseFloat(t.valor);
+            if (["income", "investment"].includes(t.tipo)) ganhos += v;
+            else gastos += v;
+          });
+          const saldo = ganhos - gastos;
+          document.getElementById("saldo-atual").textContent = `R$ ${saldo.toFixed(2)}`;
+          document.getElementById("total-ganhos").textContent = `R$ ${ganhos.toFixed(2)}`;
+          document.getElementById("total-gastos").textContent = `R$ ${gastos.toFixed(2)}`;
+        }
+
+        // ------- METAS -------
         const formMetas = document.getElementById("adicionar-meta");
         const tabelaMetas = document.getElementById("tabela-metas");
 
-        function carregarMetas() {
-            const metas = JSON.parse(localStorage.getItem('metas') || '[]');
-            tabelaMetas.innerHTML = '';
-            
-            metas.forEach(meta => {
-                adicionarLinhaMeta(meta);
-            });
+        async function carregarMetas() {
+          const r = await fetch("{% url 'listar_metas' %}");
+          const data = await r.json();
+          const metas = data.metas;
+          tabelaMetas.innerHTML = "";
+          metas.forEach(m => {
+            const linha = document.createElement("tr");
+            linha.innerHTML = `
+              <td>${m.nome}</td>
+              <td>R$ ${parseFloat(m.valor).toFixed(2)}</td>
+              <td>${m.status}</td>
+              <td><button onclick="excluirMeta(${m.id})">Excluir</button></td>`;
+            tabelaMetas.appendChild(linha);
+          });
         }
 
-        function adicionarLinhaMeta(meta) {
-            const novaLinha = document.createElement("tr");
-            novaLinha.dataset.id = meta.id;
-            
-            const tdNome = document.createElement("td");
-            const tdValor = document.createElement("td");
-            const tdProgresso = document.createElement("td");
-            const tdStatus = document.createElement("td");
-            const tdAcoes = document.createElement("td");
-
-            tdNome.textContent = meta.nome;
-            tdValor.textContent = `R$ ${parseFloat(meta.valor).toFixed(2)}`;
-
-            const progresso = document.createElement("div");
-            progresso.style.background = "#e0e0e0";
-            progresso.style.borderRadius = "10px";
-            progresso.style.height = "10px";
-            progresso.style.margin = "5px 0";
-            
-            const barra = document.createElement("div");
-            barra.style.background = "#4CAF50";
-            barra.style.height = "100%";
-            barra.style.borderRadius = "10px";
-            barra.style.width = "0%"; 
-            barra.textContent = " ";
-            progresso.appendChild(barra);
-            
-            tdProgresso.appendChild(progresso);
-
-            tdStatus.textContent = "Pendente";
-            tdStatus.style.color = "#ff9800";
-
-            const btnExcluir = document.createElement("button");
-            btnExcluir.textContent = "Excluir";
-            btnExcluir.className = "btn-excluir-meta";
-            btnExcluir.onclick = () => excluirMeta(meta.id);
-            tdAcoes.appendChild(btnExcluir);
-
-            novaLinha.append(tdNome, tdValor, tdProgresso, tdStatus, tdAcoes);
-            tabelaMetas.appendChild(novaLinha);
-        }
-
-        function excluirMeta(id) {
-            let metas = JSON.parse(localStorage.getItem('metas') || '[]');
-            metas = metas.filter(m => m.id !== id);
-            localStorage.setItem('metas', JSON.stringify(metas));
-            carregarMetas();
-        }
-
-        formMetas.addEventListener("submit", function(event){
-            event.preventDefault();
-
-            const novaMeta = {
-                id: Date.now(),
-                nome: formMetas.meta.value,
-                valor: parseFloat(formMetas["valor-meta"].value).toFixed(2)
-            };
-
-            // SALVAAAAAAAAAAAAAAAAAAAAAAAA
-            let metas = JSON.parse(localStorage.getItem('metas') || '[]');
-            metas.push(novaMeta);
-            localStorage.setItem('metas', JSON.stringify(metas));
-
-            adicionarLinhaMeta(novaMeta);
-            formMetas.reset();
+        formMetas.addEventListener("submit", async e => {
+          e.preventDefault();
+          const body = { nome: formMetas.meta.value, valor: formMetas["valor-meta"].value };
+          await fetch("{% url 'adicionar_meta' %}", {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify(body)
+          });
+          formMetas.reset();
+          carregarMetas();
         });
 
-        function adicionarLembrete() {
-            const nome = document.querySelector('input[name="lembrete"]').value;
-            const data = document.querySelector('input[name="data-lembrete"]').value;
-            
-            if (!nome || !data) {
-                alert('Preencha nome e data!');
-                return;
-            }
-            
-            const lembretes = JSON.parse(localStorage.getItem('lembretes') || '[]');
-            if (lembretes.length >= 2) {
-                alert('Máximo de 2 lembretes atingido! Exclua um para adicionar outro.');
-                return;
-            }
-            
-            const novoLembrete = {
-                id: Date.now(),
-                nome: nome,
-                data: data,
-                descricao: document.querySelector('input[name="descricao"]').value || ''
-            };
-            lembretes.push(novoLembrete);
-            localStorage.setItem('lembretes', JSON.stringify(lembretes));
-
-            carregarLembretes();
-          
-            document.querySelector('input[name="lembrete"]').value = '';
-            document.querySelector('input[name="data-lembrete"]').value = '';
-            document.querySelector('input[name="descricao"]').value = '';
+        async function excluirMeta(id) {
+          await fetch(`{% url 'excluir_meta' 0 %}`.replace("0", id), {
+            method: "DELETE",
+            headers: headers()
+          });
+          carregarMetas();
         }
 
-        function carregarLembretes() {
-            const lembretes = JSON.parse(localStorage.getItem('lembretes') || '[]');
-            const lista = document.getElementById('lembretes-lista');
-            const contador = document.getElementById('lembrete-count');
+        // ------- LEMBRETES -------
+        const formLembrete = document.getElementById("form-lembrete");
+        const listaLembretes = document.getElementById("lembretes-lista");
+        const contadorLembretes = document.getElementById("lembrete-count");
 
-            contador.textContent = `${lembretes.length}/2`;
- 
-            lista.innerHTML = '';
-          
-            lembretes.forEach(lembrete => {
-                const hoje = new Date().toISOString().split('T')[0];
-                const dataFormatada = formatarData(lembrete.data);
-                
-                const div = document.createElement('div');
-                div.className = `lembrete-miniatura ${lembrete.data === hoje ? 'lembrete-hoje' : ''}`;
-                div.innerHTML = `
-                    <div class="lembrete-titulo">${lembrete.nome}</div>
-                    <div class="lembrete-data">${dataFormatada}</div>
-                    <div class="lembrete-descricao">${lembrete.descricao}</div>
-                    <button class="lembrete-excluir" onclick="excluirLembrete(${lembrete.id})">
-                        Excluir
-                    </button>
-                `;
-                
-                lista.appendChild(div);
-            });
-  
-            if (lembretes.length === 0) {
-                lista.innerHTML = '<div style="color: rgba(255,255,255,0.5); font-size: 11px; padding: 10px; text-align: center;">Nenhum lembrete</div>';
-            }
+        async function carregarLembretes() {
+          const r = await fetch("{% url 'listar_lembretes' %}");
+          const data = await r.json();
+          const lembretes = data.lembretes;
+          contadorLembretes.textContent = `${lembretes.length}/2`;
+          listaLembretes.innerHTML = "";
+          lembretes.forEach(l => {
+            const hoje = new Date().toISOString().split("T")[0];
+            const div = document.createElement("div");
+            div.className = `lembrete-miniatura ${l.data === hoje ? "lembrete-hoje" : ""}`;
+            div.innerHTML = `
+              <div class="lembrete-titulo">${l.nome}</div>
+              <div class="lembrete-data">${l.data}</div>
+              <div class="lembrete-descricao">${l.descricao || ''}</div>
+              <button onclick="excluirLembrete(${l.id})">Excluir</button>`;
+            listaLembretes.appendChild(div);
+          });
         }
 
-        function excluirLembrete(id) {
-            let lembretes = JSON.parse(localStorage.getItem('lembretes') || '[]');
-            lembretes = lembretes.filter(l => l.id !== id);
-            localStorage.setItem('lembretes', JSON.stringify(lembretes));
-            carregarLembretes();
+        formLembrete.addEventListener("submit", async e => {
+          e.preventDefault();
+          const body = {
+            nome: formLembrete.lembrete.value,
+            data: formLembrete["data-lembrete"].value,
+            descricao: formLembrete.descricao.value
+          };
+          await fetch("{% url 'adicionar_lembrete' %}", {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify(body)
+          });
+          formLembrete.reset();
+          carregarLembretes();
+        });
+
+        async function excluirLembrete(id) {
+          await fetch(`{% url 'excluir_lembrete' 0 %}`.replace("0", id), {
+            method: "DELETE",
+            headers: headers()
+          });
+          carregarLembretes();
         }
 
-        function formatarData(dataString) {
-            const data = new Date(dataString);
-            const hoje = new Date();
-            
-            if (data.toDateString() === hoje.toDateString()) {
-                return 'Hoje';
-            }
-            
-            return data.toLocaleDateString('pt-BR');
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            carregarTransacoes();
-            carregarMetas();
-            carregarLembretes();
+        // ------- INICIALIZAÇÃO -------
+        document.addEventListener("DOMContentLoaded", () => {
+          carregarTransacoes();
+          carregarMetas();
+          carregarLembretes();
         });
       </script>
-
     </main>
   </div>
 </body>

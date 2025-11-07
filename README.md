@@ -1,5 +1,4 @@
 ## Stonks Viewer
--
 
 Seu controle financeiro, de um jeito simples e prático.
 
@@ -52,7 +51,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## Demonstração do projeto
 
-[📹 Assista à demonstração do projeto implementado em telas](https://drive.google.com/drive/folders/132CkLo7S20QO9MzFHEMZ4lQgEQ6Jf3hd)
+[📹 Assista à demonstração do projeto implementado em telas](https://drive.google.com/drive/folders/1SH7ALHvLA7uM33nojNn3Vh_lu3sJxap5)
 
 [Imagens do Figma](docs/imagensFigma/)
 
@@ -64,7 +63,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ![logo](docs/imagens/ImagemTrello2.png)
 
-![logo](docs/imagens/ImagemUH.2.png)
+![logo](docs/imagens/ImagemUH1.png)
 
 ---
 
@@ -76,7 +75,9 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 [Issue/bug tracke](docs/imagens/TelaIssue.png)
 
+## Relatório
 
+[Relatório da programação em par](docs/projeto/Relatorio_PP.pdf)
 
 
 ---
