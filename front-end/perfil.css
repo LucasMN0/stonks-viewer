@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(-45deg,  #000000, #f0f8f4f3, #14291bbb, #ade2bf, #022c0ddc);
+    background: linear-gradient(-45deg, #000000, #082e25, #1e8147c7, #000000d3);
     background-size: 400% 400%;
     animation: gradientMove 15s ease infinite;
     display: flex;
@@ -32,9 +32,9 @@ body {
     max-width: 1200px;
     height: 90vh;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.479);
+    backdrop-filter: blur(8px);
+    background: rgba(247, 246, 246, 0.918);
     overflow: hidden;
 }
 
@@ -74,7 +74,7 @@ body {
     padding: 5px;
     display: block;
     border-radius: 8px;
-    transition: background 0.3s ease;
+    transition: background 0.01s ease;
 }
 
 .sidebar-nav a.active, .sidebar-nav a:hover {
@@ -108,7 +108,7 @@ body {
 /* princiapl */
 .main-content {
     flex: 1;
-    background: rgba(18, 70, 41, 0.493); 
+    background: rgba(74, 92, 82, 0.493); 
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -124,7 +124,7 @@ body {
 
 .main-header h1 {
     font-size: 28px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .search-bar input {
@@ -155,7 +155,7 @@ body {
 }
 
 .card h2 {
-    color: #000000;
+    color: #ffffff;
     margin-bottom: 5px;
 }
 

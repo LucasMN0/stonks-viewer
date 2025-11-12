@@ -9,7 +9,7 @@ class CustomPasswordValidator:
             errors.append(_("A senha deve conter pelo menos 8 caracteres."))
         if not re.search(r'[A-Z]',password):
             errors.append(_("A senha deve conter pelo menos uma letra maiúscula."))
-        if not re.search(r'[!@#$%&*]',password):
+        if not re.search(r'[!@#$%&?*]',password):
             errors.append(_("A senha deve conter pelo menos um símbolo."))
 
         if errors:
