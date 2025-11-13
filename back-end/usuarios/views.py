@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -87,6 +87,39 @@ def recuperar_senha(request):
         return redirect('login')
 
     return render(request, 'usuarios/recuperar.html')
+
+def redefinir_senha(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST.get('novaSenha')
+            confirm_password = request.POST.get('confirmarSenha')
+
+            if new_password != confirm_password:
+                messages.error(request, "As senhas não são iguais.")
+                return redirect(request.path)
+
+            try:
+                validate_password(new_password, user)
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, "Senha redefinida com sucesso!")
+                return redirect('login')
+            except ValidationError as e:
+                for msg in e.messages:
+                    messages.error(request, msg)
+                return redirect(request.path)
+
+        return render(request, 'usuarios/reset_password_form.html')
+    else:
+        messages.error(request, "Link inválido ou expirado.")
+        return redirect('recuperar')
 
 def sair_view(request):
     logout(request)
@@ -273,3 +306,5 @@ def excluir_lembrete(request, lembrete_id):
     lembrete = get_object_or_404(Lembrete, id=lembrete_id, usuario=request.user)
     lembrete.delete()
     return JsonResponse({'status': 'ok'})
+
+
