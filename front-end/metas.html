@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StonksViewer</title>
+    <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png" />
+    <link rel="stylesheet" href="metas.css" />
+</head> 
+<body>
+    <div class="navegador-principal"> 
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Stonks Viewer</div>
+            </div>
+        
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="perfil.html">Voltar</a></li>
+                    <li><a href="index.html">Sair</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-user-profile">
+                <div class="user-avatar"></div>
+                <div class="user-info">
+                    <p class="user-name"></p>
+                    <p class="user-email"></p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Metas financeiras</h1>
+            </header>
+
+            <section class="metas-section">
+                <h2>Definindo suas metas financeiras</h2>
+                <p>Crie e acompanhe suas metas financeiras para alcançar seus objetivos com mais facilidade.</p>
+                <br> <br> <hr> <br>
+                <form class="metas-form" id="form-metas">
+                    <label for="meta-nome">Nome da meta</label>
+                    <input type="text" id="meta-nome" required>
+
+                    <label for="meta-valor">Valor alvo</label>
+                    <input type="number" id="meta-valor" required>
+
+                    <label for="meta-data">Data inicial</label>
+                    <input type="date" id="meta-data" required>
+
+                    <label for="meta-data-alvo">Data final</label>
+                    <input type="date" id="meta-final" required>
+
+                    <button type="submit">Adicionar Meta</button>
+                </form>
+            </section>
+
+            <section class="lista-metas">
+                <h2>Metas atuais</h2>
+                <div id="container-metas"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('form-metas');
+        const container = document.getElementById('container-metas');
+        let metas = [];
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const nome = document.getElementById('meta-nome').value;
+            const valor = document.getElementById('meta-valor').value;
+            const data = document.getElementById('meta-data').value;
+            const dataAlvo = document.getElementById('meta-final').value;
+
+            const meta = {
+            id: Date.now(),
+            nome,
+            valor,
+            data,
+            dataAlvo,
+            progresso: 0 
+        };
+
+        metas.push(meta);
+        atualizarTela();
+        form.reset();
+        });
+
+    
+    function atualizarTela() {
+        container.innerHTML = "";
+
+        metas.forEach(meta => {
+            const pct = (meta.progresso / meta.valor) * 100;
+            const pctFormat = Math.min(pct, 100).toFixed(1);
+
+            const div = document.createElement('div');
+            div.classList.add('meta-card');
+
+            div.innerHTML = `
+                <h3>${meta.nome}</h3>
+                <p><strong>Valor alvo:</strong> R$ ${meta.valor}</p>
+                <p><strong>Data alvo:</strong> ${meta.data}</p>
+                <p><strong>Progresso:</strong> R$ ${meta.progresso}</p>
+
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: ${pctFormat}%"></div>
+                </div>
+                <small>${pctFormat}% concluído</small>
+
+                <div class="meta-buttons">
+                    <button onclick="editarMeta(${meta.id})" class="btn-editar">Adicionar valor</button>
+                    <button onclick="excluirMeta(${meta.id})" class="btn-excluir">Excluir</button>
+                </div>
+            `;
+
+            container.appendChild(div);
+            });
+        }
+
+            function excluirMeta(id) {
+                metas = metas.filter(meta => meta.id !== id);
+                atualizarTela();
+            }
+
+            function editarMeta(id) {
+                let meta = metas.find(m => m.id === id);
+
+                const valorAdd = Number(prompt("valor adicionado: "));
+
+                if (!isNaN(valorAdd) && valorAdd > 0) {
+                    meta.progresso += valorAdd;
+                    atualizarTela();
+                }
+            }
+    </script>
+</body>
+</html>

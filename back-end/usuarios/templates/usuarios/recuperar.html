@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="recuperar.css">
-    <link rel="icon" href="../docs/imagens/cofrinho.png" type="image/png">
+    <link rel="stylesheet" href="{% static 'usuarios/recuperar.css' %}">
+    <link rel="icon" href="{% static 'usuarios/imagens/cofrinho.png' %}" type="image/png" sizes="180x180">
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StonksViewer</title>
 </head>
@@ -12,11 +15,12 @@
         <h2>Recuperar Senha</h2>
         <p>Insira seu e-mail para receber as instruções de recuperação de senha.</p>
         <br>
-        <form action="index.html" method="GET">
+        <form action="{% url 'recuperar' %}" method="POST">
+            {% csrf_token %}
             <input type="email" name="email" placeholder="insira o email" required>
             <button type="submit">recuperar</button>
         </form>
-        <p>Já tem uma conta? <a href="index.html">Faça login</a></p>
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
     </div>
 
 </body>

@@ -5,9 +5,8 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Fundo da página com o gradiente animado */
 body {
-    background: linear-gradient(-45deg,  #000000, #063821f3, #63ad7c, #37644d, #09902b);
+    background: linear-gradient(-45deg, #000000, #082e25, #1e8147c7, #000000d3);
     background-size: 400% 400%;
     animation: gradientMove 15s ease infinite;
     display: flex;
@@ -33,9 +32,9 @@ body {
     max-width: 1200px;
     height: 90vh;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.479);
+    backdrop-filter: blur(8px);
+    background: rgba(247, 246, 246, 0.918);
     overflow: hidden;
 }
 
@@ -75,7 +74,7 @@ body {
     padding: 5px;
     display: block;
     border-radius: 8px;
-    transition: background 0.3s ease;
+    transition: background 0.01s ease;
 }
 
 .sidebar-nav a.active, .sidebar-nav a:hover {
@@ -106,10 +105,10 @@ body {
     font-weight: bold;
 }
 
-/* princiapl */
+
 .main-content {
     flex: 1;
-    background: rgba(255, 255, 255, 0.1); 
+    background: rgba(74, 92, 82, 0.493); 
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -125,13 +124,13 @@ body {
 
 .main-header h1 {
     font-size: 28px;
-    color: #000000;
+    color: #ffffff;
 }
 
 .search-bar input {
     padding: 8px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #222222;
 }
 .summary-cards {
     display: flex;
@@ -140,10 +139,10 @@ body {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
     padding: 20px;
+    border-radius: 15px;
     flex: 1;
     text-align: center;
     backdrop-filter: blur(5px);
@@ -156,14 +155,14 @@ body {
 }
 
 .card h2 {
-    color: #000000;
+    color: #ffffff;
     margin-bottom: 5px;
 }
 
 .card-value {
     font-size: 24px;
     font-weight: bold;
-    color: #85ffb4;
+    color: #0c2415;
 }
 .add-transaction-form {
     background: rgba(255, 255, 255, 0.1);
@@ -238,14 +237,14 @@ table {
 }
 
 thead th {
-    color: #abffcb;
+    color: #0e2416;
     text-align: left;
     padding: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.212);
 }
 
 tbody td {
-    color: #fff;
+    color: #080808d8;
     padding: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -256,13 +255,36 @@ tbody td {
     border-radius: 15px;
     padding: 20px;
     backdrop-filter: blur(5px);
-    margin-top: 20px;
+    margin-top: 2px;
+}
+
+.meta-container table {
+  color: #0c2b1b; 
 }
 
 .metas-financeiras h3 {
     color: #000000;
     margin-bottom: 15px;
 }
+
+.metas-financeiras button{
+    background: #108f41;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.metas-financeiras input,
+.metas-financeiras button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
 
 .adicionar-lembrete {
     background: rgba(255, 255, 255, 0.1);
@@ -407,3 +429,22 @@ tbody td {
 .lembretes-lista::-webkit-scrollbar-thumb:hover {
     background: rgba(255,255,255,0.5);
 }
+
+
+.charts-row {
+    display: flex;
+    justify-content: center; 
+    gap: 50px;               
+    flex-wrap: wrap;         
+  }
+
+  .chart-container {
+    flex: 10 10 300px;         
+    max-width: 400px;  
+    max-height: 200px;
+
+    background: #f9f9f900;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0);
+  }
