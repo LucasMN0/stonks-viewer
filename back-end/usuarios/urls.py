@@ -8,6 +8,8 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('recuperar-senha/', views.recuperar_senha, name='recuperar'),
     path('sair/', views.sair_view, name='sair'),
+    path('reset/<uidb64>/<token>/', views.redefinir_senha, name='password_reset_confirm'),
+
 
     # Reset de senha usando views do Django
     path(
