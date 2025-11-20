@@ -25,15 +25,14 @@
         <div class="lembretes-lista" id="lembretes-lista"></div>
       </li>
 
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="#main-charts">Análise</a></li>
-          <li><a href="#recent-transactions">Últimas movimentações</a></li>
-          <li><a href="#metas-financeiras">Metas</a></li>
-          <li><a href="#adicionar-lembrete">Lembretes</a></li>
-          <li><a href="{% url 'sair' %}">Sair</a></li>
-        </ul>
-      </nav>
+      <!-- 🎯 SIDEBAR COMAPCTA: Apenas Metas e Sair -->
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="{% url 'listar_metas' %}">Metas</a></li>
+            <li><a href="{% url 'sair' %}">Sair</a></li>
+          </ul>
+        </nav>
+
 
       <div class="sidebar-user-profile">
         <div class="user-avatar"></div>
@@ -91,22 +90,6 @@
           </select>
           <button type="submit">Adicionar</button>
         </form>
-      </section>
-
-      <!-- Metas -->
-      <section id="metas-financeiras">
-        <h3>Metas Financeiras</h3>
-        <form id="adicionar-meta">
-          <input type="text" name="meta" placeholder="Nome da meta" required />
-          <input type="number" name="valor-meta" placeholder="Valor" step="0.01" required />
-          <button type="submit">Adicionar</button>
-        </form>
-        <table>
-          <thead>
-            <tr><th>Meta</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
-          </thead>
-          <tbody id="tabela-metas"></tbody>
-        </table>
       </section>
 
       <!-- SCRIPT -->
@@ -215,46 +198,6 @@
           document.getElementById("total-gastos").textContent = `R$ ${gastos.toFixed(2)}`;
         }
 
-        // ------- METAS -------
-        const formMetas = document.getElementById("adicionar-meta");
-        const tabelaMetas = document.getElementById("tabela-metas");
-
-        async function carregarMetas() {
-          const r = await fetch("{% url 'listar_metas' %}");
-          const data = await r.json();
-          const metas = data.metas;
-          tabelaMetas.innerHTML = "";
-          metas.forEach(m => {
-            const linha = document.createElement("tr");
-            linha.innerHTML = `
-              <td>${m.nome}</td>
-              <td>R$ ${parseFloat(m.valor).toFixed(2)}</td>
-              <td>${m.status}</td>
-              <td><button onclick="excluirMeta(${m.id})">Excluir</button></td>`;
-            tabelaMetas.appendChild(linha);
-          });
-        }
-
-        formMetas.addEventListener("submit", async e => {
-          e.preventDefault();
-          const body = { nome: formMetas.meta.value, valor: formMetas["valor-meta"].value };
-          await fetch("{% url 'adicionar_meta' %}", {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify(body)
-          });
-          formMetas.reset();
-          carregarMetas();
-        });
-
-        async function excluirMeta(id) {
-          await fetch(`{% url 'excluir_meta' 0 %}`.replace("0", id), {
-            method: "DELETE",
-            headers: headers()
-          });
-          carregarMetas();
-        }
-
         // ------- LEMBRETES -------
         const formLembrete = document.getElementById("form-lembrete");
         const listaLembretes = document.getElementById("lembretes-lista");
@@ -306,7 +249,6 @@
         // ------- INICIALIZAÇÃO -------
         document.addEventListener("DOMContentLoaded", () => {
           carregarTransacoes();
-          carregarMetas();
           carregarLembretes();
         });
       </script>
