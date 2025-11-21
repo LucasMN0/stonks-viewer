@@ -51,7 +51,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## Demonstração do projeto
 
-[📹 Assista à demonstração do projeto implementado em telas](https://drive.google.com/drive/folders/1SH7ALHvLA7uM33nojNn3Vh_lu3sJxap5)
+[📹 Assista à demonstração e ao teste do projeto implementado em telas](https://drive.google.com/drive/u/0/folders/1SH7ALHvLA7uM33nojNn3Vh_lu3sJxap5)
 
 [Imagens do Figma](docs/imagensFigma/)
 
@@ -61,7 +61,7 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## 🔹Tela do quadro Kanban
 
-![logo](docs/imagens/ImagemTrello2.png)
+![logo](docs/imagens/Trello3.png)
 
 ![logo](docs/imagens/ImagemUH1.png)
 
@@ -77,9 +77,14 @@ As funcionalidades do Stonks Viewer foram definidas através de histórias de us
 
 ## Relatório
 
-[Relatório da programação em par](docs/projeto/Relatorio_PP.pdf)
+[Relatório da programação em par](docs/projeto/Relatorio_PP2.pdf)
+
+## Contribuir e Montar ambiente
+
+[Montando o ambiente e como contribuir com o projeto](docs/projeto/CONTRIBUTING_md.pdf)
 
 
+---
 ---
 Equipe:
 -
