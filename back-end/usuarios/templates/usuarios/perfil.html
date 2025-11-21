@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="{% static 'usuarios/imagens/cofrinho.png' %}" type="image/png" sizes="180x180">
-
   <title>Stonks Viewer</title>
   <link rel="stylesheet" href="{% static 'usuarios/perfil.css' %}" />
 </head>
@@ -25,14 +24,12 @@
         <div class="lembretes-lista" id="lembretes-lista"></div>
       </li>
 
-      <!-- 🎯 SIDEBAR COMAPCTA: Apenas Metas e Sair -->
-        <nav class="sidebar-nav">
-          <ul>
-            <li><a href="{% url 'listar_metas' %}">Metas</a></li>
-            <li><a href="{% url 'sair' %}">Sair</a></li>
-          </ul>
-        </nav>
-
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="{% url 'listar_metas' %}">Metas</a></li>
+          <li><a href="{% url 'sair' %}">Sair</a></li>
+        </ul>
+      </nav>
 
       <div class="sidebar-user-profile">
         <div class="user-avatar"></div>
@@ -46,14 +43,12 @@
     <main class="main-content" id="main-content">
       <header class="main-header"><h1>Sua visão geral financeira</h1></header>
 
-      <!-- Resumo -->
       <section class="summary-cards">
         <div class="card"><h2>Saldo Atual</h2><p id="saldo-atual">R$ 0,00</p></div>
         <div class="card"><h2>Ganhos</h2><p id="total-ganhos">R$ 0,00</p></div>
         <div class="card"><h2>Gastos</h2><p id="total-gastos">R$ 0,00</p></div>
       </section>
 
-      <!-- Adicionar Lembrete -->
       <section id="adicionar-lembrete">
         <h3>Adicionar Lembrete</h3>
         <form id="form-lembrete">
@@ -64,7 +59,6 @@
         </form>
       </section>
 
-      <!-- Transações -->
       <section id="recent-transactions">
         <h3>Últimas Movimentações</h3>
         <table>
@@ -92,26 +86,10 @@
         </form>
       </section>
 
-      <!-- SCRIPT -->
       <script>
-        // -------------------------------
-        // CSRF TOKEN - Necessário p/ POST
-        // -------------------------------
-        function getCookie(name) {
-          let cookieValue = null;
-          if (document.cookie && document.cookie !== "") {
-            const cookies = document.cookie.split(";");
-            for (let i = 0; i < cookies.length; i++) {
-              const cookie = cookies[i].trim();
-              if (cookie.substring(0, name.length + 1) === name + "=") {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-              }
-            }
-          }
-          return cookieValue;
-        }
-        const csrfToken = getCookie("csrftoken");
+        const csrfToken = document.cookie.split('; ')
+          .find(row => row.startsWith('csrftoken'))
+          ?.split('=')[1];
 
         function headers() {
           return {
@@ -121,17 +99,15 @@
           };
         }
 
-        // ------- TRANSACOES -------
         const formTransacoes = document.getElementById("add-transaction-form");
         const tabelaTransacoes = document.getElementById("tabela-transacoes");
 
         async function carregarTransacoes() {
           const r = await fetch("{% url 'listar_transacoes' %}");
           const data = await r.json();
-          const transacoes = data.transacoes;
           tabelaTransacoes.innerHTML = "";
-          transacoes.forEach(adicionarLinhaTransacao);
-          atualizarResumoFinanceiro(transacoes);
+          data.transacoes.forEach(adicionarLinhaTransacao);
+          atualizarResumoFinanceiro(data.transacoes);
         }
 
         function adicionarLinhaTransacao(t) {
@@ -142,18 +118,36 @@
             <td>${t.data}</td>
             <td>${t.descricao}</td>
             <td>${traduzirTipo(t.tipo)}</td>
-            <td style="color:${cor};font-weight:bold">
-              R$ ${valor.toFixed(2)}
-            </td>
-            <td><button onclick="excluirTransacao(${t.id})">Excluir</button></td>`;
+            <td style="color:${cor};font-weight:bold">R$ ${valor.toFixed(2)}</td>
+            <td>
+              <button onclick="editarTransacao(${t.id}, '${t.descricao}', ${t.valor}, '${t.tipo}')">Editar</button>
+              <button onclick="excluirTransacao(${t.id})">Excluir</button>
+            </td>`;
           tabelaTransacoes.appendChild(linha);
         }
 
         async function excluirTransacao(id) {
-          await fetch(`{% url 'excluir_transacao' 0 %}`.replace("0", id), {
-            method: "DELETE",
-            headers: headers()
+          await fetch(`/transacoes/excluir/${id}/`, { method: "DELETE", headers: headers() });
+          carregarTransacoes();
+        }
+
+        async function editarTransacao(id, descricaoAtual, valorAtual, tipoAtual) {
+          const novaDescricao = prompt("Descrição:", descricaoAtual);
+          const novoValor = parseFloat(prompt("Valor:", valorAtual));
+          const novoTipo = prompt("Tipo (income, investment, expense, extra, other):", tipoAtual);
+
+          if (!novaDescricao || isNaN(novoValor) || !novoTipo) return;
+
+          await fetch(`/transacoes/editar/${id}/`, {
+            method: "PATCH",
+            headers: headers(),
+            body: JSON.stringify({
+              descricao: novaDescricao,
+              valor: novoValor,
+              tipo: novoTipo
+            })
           });
+
           carregarTransacoes();
         }
 
@@ -162,7 +156,7 @@
           const body = {
             data: formTransacoes.date.value,
             descricao: formTransacoes.description.value,
-            valor: formTransacoes.value.value,
+            valor: parseFloat(formTransacoes.value.value),
             tipo: formTransacoes.type.value
           };
           await fetch("{% url 'adicionar_transacao' %}", {
@@ -198,7 +192,7 @@
           document.getElementById("total-gastos").textContent = `R$ ${gastos.toFixed(2)}`;
         }
 
-        // ------- LEMBRETES -------
+        // Lembretes
         const formLembrete = document.getElementById("form-lembrete");
         const listaLembretes = document.getElementById("lembretes-lista");
         const contadorLembretes = document.getElementById("lembrete-count");
@@ -206,13 +200,11 @@
         async function carregarLembretes() {
           const r = await fetch("{% url 'listar_lembretes' %}");
           const data = await r.json();
-          const lembretes = data.lembretes;
-          contadorLembretes.textContent = `${lembretes.length}/2`;
+          contadorLembretes.textContent = `${data.lembretes.length}/2`;
           listaLembretes.innerHTML = "";
-          lembretes.forEach(l => {
-            const hoje = new Date().toISOString().split("T")[0];
+          data.lembretes.forEach(l => {
             const div = document.createElement("div");
-            div.className = `lembrete-miniatura ${l.data === hoje ? "lembrete-hoje" : ""}`;
+            div.className = "lembrete-miniatura";
             div.innerHTML = `
               <div class="lembrete-titulo">${l.nome}</div>
               <div class="lembrete-data">${l.data}</div>
@@ -239,14 +231,10 @@
         });
 
         async function excluirLembrete(id) {
-          await fetch(`{% url 'excluir_lembrete' 0 %}`.replace("0", id), {
-            method: "DELETE",
-            headers: headers()
-          });
+          await fetch(`/lembretes/excluir/${id}/`, { method: "DELETE", headers: headers() });
           carregarLembretes();
         }
 
-        // ------- INICIALIZAÇÃO -------
         document.addEventListener("DOMContentLoaded", () => {
           carregarTransacoes();
           carregarLembretes();

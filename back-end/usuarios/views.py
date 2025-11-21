@@ -192,6 +192,43 @@ def excluir_transacao(request, transacao_id):
     return JsonResponse({'status': 'ok'})
 
 
+# NOVA VIEW: EDITAR TRANSAÇÃO
+@csrf_exempt
+@login_required
+def editar_transacao(request, transacao_id):
+    if request.method not in ["PATCH", "POST"]:
+        return JsonResponse({'error': "Método inválido"}, status=405)
+    transacao = get_object_or_404(Transacao, id=transacao_id, usuario=request.user)
+    try:
+        body = json.loads(request.body)
+        descricao = body.get('descricao')
+        valor = body.get('valor')
+        tipo = body.get('tipo')
+
+        if descricao is not None:
+            transacao.descricao = descricao
+        if valor is not None:
+            try:
+                transacao.valor = Decimal(str(valor))
+            except (InvalidOperation, TypeError, ValueError):
+                return JsonResponse({'error': 'Valor inválido'}, status=400)
+        if tipo is not None:
+            transacao.tipo = tipo
+
+        transacao.save()
+        return JsonResponse({
+            'status': 'ok',
+            'transacao': {
+                'id': transacao.id,
+                'data': transacao.data.strftime('%Y-%m-%d'),
+                'descricao': transacao.descricao,
+                'valor': float(transacao.valor),
+                'tipo': transacao.tipo,
+            }
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
 # =========================
 # METAS FINANCEIRAS
 # =========================
